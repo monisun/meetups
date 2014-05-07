@@ -9,7 +9,25 @@ first solve for n = 3:
 
 
 debugging notes:
+1.
 GET /javascripts/meetup-ui.js 200 6ms - 1.34kb
 PUT /addlocation/1 404 15ms - 1.24kb
 
 this means 404, router.put(...) is not correctly set up.
+
+2. creating 2dsphere indexes:
+
+> db.collection.ensureIndex({ "gps" : "2dsphere" })
+{
+	"createdCollectionAutomatically" : true,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> 
+
+
+3. change input such that it's a single input textbox & always adding a new GPS location.
+
+4. make categories available
+5. address, zip code, more flexible addresses

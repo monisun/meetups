@@ -2,48 +2,12 @@ var showRes = function (data) {
     $('#result').text(JSON.stringify(data, null, '  '));
 };  
 $( document ).ready(function() {
-    $('#addlocation1').click(
-        function(e) {
-            var data = $('#formAddUserLocation').serialize();
-            $.ajax(
-                { url: '/addlocation/' + $('#inputUser1Id').val(),
-                  type: 'PUT', 
-                  data: data,
-                  success: showRes
-                }
-            );  
-        }   
-    );
-    $('#addlocation2').click(
-        function(e) {
-            var data = $('#formAddUserLocation').serialize();
-            $.ajax(
-                { url: '/addlocation/' + $('#inputUser2Id').val(),
-                  type: 'PUT', 
-                  data: data,
-                  success: showRes
-                }
-            );  
-        }   
-    );
-    $('#addlocation3').click(
-        function(e) {
-            var data = $('#formAddUserLocation').serialize();
-            $.ajax(
-                { url: '/addlocation/' + $('#inputUser3Id').val(),
-                  type: 'PUT', 
-                  data: data,
-                  success: showRes
-                }
-            );  
-        }   
-    );
     $('#searchByTerm').click(
         function(e) {
-            var data = $('#formAddUserLocation').serialize();
+            var data = $('#formSearchByLocation').serialize();
             $.ajax(
-                { url: '/addlocation/' + $('#inputUser1Id').val(),
-                  type: 'PUT', 
+                { url: '/searchByLocation/' + $('#inputTerm').val(),
+                  type: 'POST', 
                   data: data,
                   success: showRes
                 }

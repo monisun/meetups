@@ -6,68 +6,173 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Meetup' });
 });
 
-//add a user's GPS location to DB
-var addlocation = function(req, res) {
+//search
+var searchByLocation = function(req, res) {
     //console.log('hi');
     // set DB variable
     var db = req.db;
     // set variables
-    var userId = req.body.user1id || req.params.user1id || req.body.user2id || req.params.user2id || req.body.user3id || req.params.user3id;
-    var userLat = req.body.user1lat || req.params.user1lat || req.body.user2lat || req.params.user2lat || req.body.user3lat || req.params.user3lat;
-	var userLong = req.body.user1long || req.params.user1long || req.body.user2long || req.params.user2long || req.body.user3long || req.params.user3long;
+    var userId1 = req.body.user1id || req.params.user1id;
+    var user1Lat = req.body.user1lat || req.params.user1lat;
+    var user1Long = req.body.user1long || req.params.user1long;
     
-    console.log("userId, userLat, userLong : " + userId + " " + userLat + " " + userLong);
+    var userId2 = req.body.user2id || req.params.user2id;
+    var user2Lat = req.body.user2lat || req.params.user2lat;
+    var user2Long = req.body.user2long || req.params.user2long;
     
-	if (!userId || !userLat || !userLong) { 
-		res.send({result:'error', message:'user id, lat, and long are all required!!'}
+    var userId3 = req.body.user3id || req.params.user3id;
+    var user3Lat = req.body.user3lat || req.params.user3lat;
+    var user3Long = req.body.user3long || req.params.user3long;
+    
+    //console.log("userId, userLat, userLong : " + userId + " " + userLat + " " + userLong);
+    
+	if (!userId1 && !userId2 && !userId3) { 
+		res.send({result:'error', message:'at least 1 userId is required!!'}
 	)};
-	// if (!lat) { 
-//         res.send({result:'error', message:'a latitude is required'}
-//     )};
-//     if (!long) { 
-//         res.send({result:'error', message:'a longitude is required'}
-//     )};
 
     // set db collection
     var collection = db.get('location');   
 
     // submit and update to DB: store in order {longitude, latitude}
     //TODO batch update
-    collection.update(
-		{ _id : userId },
-		{ gps : {
-				type : "Point",
-				coordinates : [
-					parseFloat(userLong),
-					parseFloat(userLat)
-				]}
-		},
-		{ upsert : true},
-    	function (err, doc) {
-        if (err) {
-			console.log(err);
-            res.send({result:'error', message: "There was a problem adding/updating user id and/or GPS to the database.", err: err});
-        }
-        else {
-			var result = {result:'success', id : userId, lat : userLat, long : userLong};
-            //debug
-            console.log("result:'success' " + "id " + userId + " lat " + userLat + " long :" + userLong);
-			res.send(result);
-        }
-    });
+    //var result_output = null;
+    //User 1:
+    if (userId1) {
+        collection.update(
+    		{ _id : userId1 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user1Long),
+    					parseFloat(user1Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 1 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId1, lat : user1Lat, long : user1Long};
+                //debug
+                console.log("result:'success' " + "id " + userId1 + " lat " + user1Lat + " long :" + user1Long);
+    			res.send('success');
+            }
+        });
+    }
+    //User 2:
+    if (userId2) {
+        collection.update(
+    		{ _id : userId2 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user2Long),
+    					parseFloat(user2Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 2 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId2, lat : user2Lat, long : user2Long};
+                //console.log(result);
+                //debug
+                console.log("result:'success' " + "id " + userId2 + " lat " + user2Lat + " long :" + user2Long);  
+                res.send('success');  			
+            }
+        });        
+        
+    }
+    //User 3:
+    if (userId3) {
+        collection.update(
+    		{ _id : userId3 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user3Long),
+    					parseFloat(user3Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 3 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId3, lat : user3Lat, long : user3Long};
+                //console.log(result);
+                //debug
+                console.log("result:'success' " + "id " + userId3 + " lat " + user3Lat + " long :" + user3Long);
+                res.send('success');
+            }
+        });
+    }
+    
+    //find geographic midpoint of GPS points
+    var listLat = [user1Lat, user2Lat, user3Lat];
+    var listLong = [user1Long, user2Long, user3Long];
+    console.log(listLat);
+    console.log(listLong);
+    var midpoint = getGeographicMidpoint(listLat, listLong);
+    console.log(midpoint[0] + " " + midpoint[1]);
+//    console.log(midpoint[0]);
+ //   console.log(midpoint[1]);
+    
 };
 
 /* POST and PUT go to add cab */
-router.put('/addlocation', addlocation);
-router.put('/addlocation/:user1id', addlocation);
-router.put('/addlocation/:user2id', addlocation);
-router.put('/addlocation/:user3id', addlocation);
-// router.put('/addlocation/:user1id/:user1lat/:user1long/:user2id/:user2lat/:user2long/:user3id/:user3lat/:user3long', addlocation);
-router.post('/addlocation', addlocation);
-router.post('/addlocation/:user1id', addlocation);
-router.post('/addlocation/:user2id', addlocation);
-router.post('/addlocation/:user3id', addlocation);
-//router.post('/addlocation/:user1id/:user1lat/:user1long/:user2id/:user2lat/:user2long/:user3id/:user3lat/:user3long', addlocation);
+router.put('/searchByLocation', searchByLocation);
+router.put('/searchByLocation/:inputTerm', searchByLocation);
+router.post('/searchByLocation', searchByLocation);
+router.post('/searchByLocation/:inputTerm', searchByLocation);
+
+//finds geographic midpoint of n GPS points
+var getGeographicMidpoint = function(listLat, listLong) {
+   // console.log('here');
+    if (listLat.length != listLong.length) {
+        console.log('ERROR in getGeographicMidpoint: listLat and listLong must be same length!');
+        return 'ERROR in getGeographicMidpoint: listLat and listLong must be same length!';
+    }
+    //console.log('here 2');
+    var numPoints = listLat.length;
+    console.log(numPoints);
+    //cartesian coordinates:
+    var x = 0;
+    var y = 0;
+    var z = 0;
+    
+    //convert lat and long to float, radians
+    for (var i=0; i<numPoints; i++) {
+     //   console.log('here 3 ' + listLat[i] + " " + listLong[i]);
+        var lat = parseFloat(listLat[i]);
+    //    console.log(lat);
+        var long = parseFloat(listLong[i]);
+  //      console.log(long);
+        lat = lat * Math.PI / 180;        
+        long = long * Math.PI / 180;
+        x += Math.cos(lat) * Math.cos(long);
+        y += Math.cos(lat) * Math.sin(long);
+        z += Math.sin(lat);
+    }
+    
+    //avg:
+    var avg_x = parseFloat(x/numPoints);
+    var avg_y = parseFloat(y/numPoints);
+    var avg_z = parseFloat(z/numPoints);
+    //console.log('avg_x ' + avg_x + 'avg_y' + avg_y + 'avg_z' + avg_z);
+    var midLat = Math.atan2(y, x) * 180 / Math.PI;  //convert back to degrees
+    var midLong = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))) * 180 / Math.PI;    //convert back to degrees
+    return [midLat, midLong];   // in order {lat, long}
+}
+
+
 
 var getInfoFromDoc = function(doc) {
 	var result = [];
@@ -80,6 +185,8 @@ var getInfoFromDoc = function(doc) {
 	}	
 	return result;
 };
+
+
 
 
 
