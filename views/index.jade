@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  
+  textarea#result(style="width:1000px; height:200px;")
+  div#controls       
+      h2 enter your friends' GPS locations and what you would like to search for
+      form#formAddUserLocation(name="addlocation1", method="post", action="/addlocation")        
+        input#inputUser1Id(type="text", placeholder="user1 ID", name="user1id")
+        input#inputUser1Lat(type="text", placeholder="user1 LATITUDE", name="user1lat")
+        input#inputUser1Long(type="text", placeholder="user1 LONGITUDE", name="user1long")
+        button#addlocation1(type="button") add user location!
+        ul
+            = "\n"
+        input#inputUser2Id(type="text", placeholder="user2 ID", name="user2id")
+        input#inputUser2Lat(type="text", placeholder="user2 LATITUDE", name="user2lat")
+        input#inputUser2Long(type="text", placeholder="user2 LONGITUDE", name="user2long")
+        button#addlocation2(type="button") add user location!
+        ul
+            = "\n"
+        input#inputUser3Id(type="text", placeholder="user3 ID", name="user3id")
+        input#inputUser3Lat(type="text", placeholder="user3 LATITUDE", name="user3lat")
+        input#inputUser3Long(type="text", placeholder="user3 LONGITUDE", name="user3long")
+        button#addlocation3(type="button") add user location!
+        ul
+            = "\n"
+        input#inputTerm(type="text", placeholder="ex. 'food', 'restaurant', 'park'  leave empty for any. ", name="term", style="width:372px; height:14px;") 
+        button#searchByTerm(type="button") search!  
+        ul
+            = "\n"
+
+        
+        
+      h2 --to remove -- get cab by id or search nearest cabs by location      
+      form#formGetCab(name="searchnearestcabs",method="get",action="/cabs")
+        input#inputGetCabId(type="text", placeholder="cab_id", name="id")
+        input#inputLat(type="text", placeholder="LATITIDUE", name="latitude")
+        input#inputLong(type="text", placeholder="LONGITUDE", name="longitude")
+        input#inputRadius(type="text", placeholder="radius (m)", name="radius")
+        input#inputLimit(type="text", placeholder="limit", name="maxRecords")
+        button#searchnearestcabs(type="button") get cabs!
+  
+      h2 --to remove -- delete cab by id or all cabs      
+      form#deletecabs(name="deletecabs",method="delete",action="/cabs")
+        input#inputDeleteCabId(type="text", placeholder="cab_id", name="id")
+        button#deletecabsBtn(type="button") delete cab by id!
+        button#deleteallcabsBtn(type="button") delete all cabs!
+    
+  
+

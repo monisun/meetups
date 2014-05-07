@@ -1,0 +1,15 @@
+first solve for n = 3:
+
+1. input 3 GPS locations AND a venue category
+2. find geo mean of triangle
+3. call Yelp API: location, radius, find OpenNow, venue type
+4. show results
+5. yelp API has: term (any search string) and categories (defined)
+
+
+
+debugging notes:
+GET /javascripts/meetup-ui.js 200 6ms - 1.34kb
+PUT /addlocation/1 404 15ms - 1.24kb
+
+this means 404, router.put(...) is not correctly set up.
