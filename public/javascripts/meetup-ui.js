@@ -1,9 +1,11 @@
 var showRes = function (data) {
-    $('#result').text(JSON.stringify(data, null, '  '));
+    debugger;
+    $('#result').val(JSON.stringify(data, null, '  '));
 };  
 $( document ).ready(function() {
-    $('#searchByTerm').click(
+    $('#searchByLocation').click(
         function(e) {
+            console.log('executing #searchByLocation');
             var data = $('#formSearchByLocation').serialize();
             $.ajax(
                 { url: '/searchByLocation/' + $('#inputTerm').val(),
