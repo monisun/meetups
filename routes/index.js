@@ -38,6 +38,7 @@ var searchByLocation = function(req, res) {
 
     // set db collection
     var collection = db.get('location');   
+    var response = "";
 
     // submit and update to DB: store in order {longitude, latitude}
     //TODO batch update
@@ -63,7 +64,7 @@ var searchByLocation = function(req, res) {
     			//result = {result:'success', id : userId1, lat : user1Lat, long : user1Long};
                 //debug
                 console.log("result:'success' " + "id " + userId1 + " lat " + user1Lat + " long :" + user1Long);
-    			res.send('success');
+    			response += 'success ';
             }
         });
     }
@@ -82,14 +83,14 @@ var searchByLocation = function(req, res) {
         	function (err, doc) {
             if (err) {
     			console.log(err);
-                res.send({result:'error', message: "There was a problem adding/updating user 2 ID and/or GPS to the database.", err: err});
+                res.write({result:'error', message: "There was a problem adding/updating user 2 ID and/or GPS to the database.", err: err});
             }
             else {
     			//result = {result:'success', id : userId2, lat : user2Lat, long : user2Long};
                 //console.log(result);
                 //debug
                 console.log("result:'success' " + "id " + userId2 + " lat " + user2Lat + " long :" + user2Long);  
-                res.send('success');  			
+                response += 'success ';  			
             }
         });        
         
@@ -116,7 +117,7 @@ var searchByLocation = function(req, res) {
                 //console.log(result);
                 //debug
                 console.log("result:'success' " + "id " + userId3 + " lat " + user3Lat + " long :" + user3Long);
-                res.send('success');
+                response += 'success ';
             }
         });
     }
@@ -139,9 +140,11 @@ var searchByLocation = function(req, res) {
     console.log(loc);
     yelp.search({term: term, ll: loc, limit: parseInt(limit)}, 
         function(error, data) {
-            console.log('ERROR in yelp.search: ' + error);
-            console.log(data);
-            res.send(data);
+            if (error) {
+                console.log('ERROR in yelp.search: ' + error);
+            }
+            //console.log(data);
+            res.send(response + JSON.stringify(data));
     });
 
     // yelp.business("yelp-san-francisco", function(error, data) {
@@ -225,6 +228,13 @@ var getInfoFromDoc = function(doc) {
 };
 
 
+
+
+// //map stuff
+// var showMap = function(doc) {
+//     
+// }
+// 
 
 
 
