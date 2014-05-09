@@ -43,83 +43,83 @@ var searchByLocation = function(req, res) {
     //TODO batch update
     //var result_output = null;
     //User 1:
-    // if (userId1) {
-    //     collection.update(
-    //         { _id : userId1 },
-    //         { gps : {
-    //                 type : "Point",
-    //                 coordinates : [
-    //                     parseFloat(user1Long),
-    //                     parseFloat(user1Lat)
-    //                 ]}
-    //         },
-    //         { upsert : true},
-    //         function (err, doc) {
-    //         if (err) {
-    //             console.log(err);
-    //             res.send({result:'error', message: "There was a problem adding/updating user 1 ID and/or GPS to the database.", err: err});
-    //         }
-    //         else {
-    //             //result = {result:'success', id : userId1, lat : user1Lat, long : user1Long};
-    //             //debug
-    //             console.log("result:'success' " + "id " + userId1 + " lat " + user1Lat + " long :" + user1Long);
-    //             res.send('success');
-    //         }
-    //     });
-    // }
-    // //User 2:
-    // if (userId2) {
-    //     collection.update(
-    //         { _id : userId2 },
-    //         { gps : {
-    //                 type : "Point",
-    //                 coordinates : [
-    //                     parseFloat(user2Long),
-    //                     parseFloat(user2Lat)
-    //                 ]}
-    //         },
-    //         { upsert : true},
-    //         function (err, doc) {
-    //         if (err) {
-    //             console.log(err);
-    //             res.send({result:'error', message: "There was a problem adding/updating user 2 ID and/or GPS to the database.", err: err});
-    //         }
-    //         else {
-    //             //result = {result:'success', id : userId2, lat : user2Lat, long : user2Long};
-    //             //console.log(result);
-    //             //debug
-    //             console.log("result:'success' " + "id " + userId2 + " lat " + user2Lat + " long :" + user2Long);  
-    //             res.send('success');              
-    //         }
-    //     });        
-    //     
-    // }
-    // //User 3:
-    // if (userId3) {
-    //     collection.update(
-    //         { _id : userId3 },
-    //         { gps : {
-    //                 type : "Point",
-    //                 coordinates : [
-    //                     parseFloat(user3Long),
-    //                     parseFloat(user3Lat)
-    //                 ]}
-    //         },
-    //         { upsert : true},
-    //         function (err, doc) {
-    //         if (err) {
-    //             console.log(err);
-    //             res.send({result:'error', message: "There was a problem adding/updating user 3 ID and/or GPS to the database.", err: err});
-    //         }
-    //         else {
-    //             //result = {result:'success', id : userId3, lat : user3Lat, long : user3Long};
-    //             //console.log(result);
-    //             //debug
-    //             console.log("result:'success' " + "id " + userId3 + " lat " + user3Lat + " long :" + user3Long);
-    //             res.send('success');
-    //         }
-    //     });
-    // }
+    if (userId1) {
+        collection.update(
+    		{ _id : userId1 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user1Long),
+    					parseFloat(user1Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 1 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId1, lat : user1Lat, long : user1Long};
+                //debug
+                console.log("result:'success' " + "id " + userId1 + " lat " + user1Lat + " long :" + user1Long);
+    			res.send('success');
+            }
+        });
+    }
+    //User 2:
+    if (userId2) {
+        collection.update(
+    		{ _id : userId2 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user2Long),
+    					parseFloat(user2Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 2 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId2, lat : user2Lat, long : user2Long};
+                //console.log(result);
+                //debug
+                console.log("result:'success' " + "id " + userId2 + " lat " + user2Lat + " long :" + user2Long);  
+                res.send('success');  			
+            }
+        });        
+        
+    }
+    //User 3:
+    if (userId3) {
+        collection.update(
+    		{ _id : userId3 },
+    		{ gps : {
+    				type : "Point",
+    				coordinates : [
+    					parseFloat(user3Long),
+    					parseFloat(user3Lat)
+    				]}
+    		},
+    		{ upsert : true},
+        	function (err, doc) {
+            if (err) {
+    			console.log(err);
+                res.send({result:'error', message: "There was a problem adding/updating user 3 ID and/or GPS to the database.", err: err});
+            }
+            else {
+    			//result = {result:'success', id : userId3, lat : user3Lat, long : user3Long};
+                //console.log(result);
+                //debug
+                console.log("result:'success' " + "id " + userId3 + " lat " + user3Lat + " long :" + user3Long);
+                res.send('success');
+            }
+        });
+    }
     
     //TODO this should construct list of all GPS lat and long values.
     var listLat = [user1Lat, user2Lat, user3Lat];

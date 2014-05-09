@@ -10,8 +10,11 @@ var db = monk('localhost:27017/meetup');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
