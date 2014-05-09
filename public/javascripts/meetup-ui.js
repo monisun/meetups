@@ -13,9 +13,10 @@ var renderMap = function() {
 
     // add a marker in the given location, attach some popup content to it and open the popup
     L.marker([37.7756, -122.4193]).addTo(map)
-        .bindPopup('hey there!')
+        .bindPopup('Your current location!')
         .openPopup();    
-}
+};
+
 
 $( document ).ready(function() {
     renderMap();
@@ -33,6 +34,18 @@ $( document ).ready(function() {
             );  
         }   
     );
+    
+    $('#searchAddr').click(
+        function(e) {
+            console.log('executing #searchAddr');
+            var input = document.getElementById("addr");
+
+            $.getJSON('http://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + input.value, 
+                function(data) {
+                });
+        }
+    );
+    
     
     
     $('#searchnearestcabs').click(

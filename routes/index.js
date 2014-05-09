@@ -143,7 +143,11 @@ var searchByLocation = function(req, res) {
             if (error) {
                 console.log('ERROR in yelp.search: ' + error);
             }
-            //console.log(data);
+            //var parsedData = JSON.parse(data);
+            data.businesses.forEach(function(item, index) {
+              console.log("id: " + item.id + " name: " + item.name + " rating: " + item.rating + " url: " + item.url);
+              console.log(index);
+            });
             res.send(response + JSON.stringify(data));
     });
 
@@ -154,7 +158,20 @@ var searchByLocation = function(req, res) {
     
 };
 
-
+// var renderMarkers(data) {
+//     
+//     // create a map in the "map" div, set the view to a given place and zoom, default to SF
+//     var map = L.map('map').setView([37.7756, -122.4193], 13);
+// 
+//     // add an OpenStreetMap tile layer
+//     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+// 
+//     // add a marker in the given location, attach some popup content to it and open the popup
+//     L.marker([37.7756, -122.4193]).addTo(map)
+//         .bindPopup('Your current location!')
+//         .openPopup();    
+// }
 
 
 /* POST and PUT go to add cab */
