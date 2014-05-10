@@ -31,3 +31,18 @@ this means 404, router.put(...) is not correctly set up.
 
 4. make categories available
 5. address, zip code, more flexible addresses
+
+6. markers: auto-center
+--
+have single text box entry to add GPS locations, button
+put in marker
+add to db
+query yelp
+
+--
+nodemon
+vs.
+Forever
+
+--
+host on AWS

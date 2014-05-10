@@ -125,8 +125,11 @@ var searchByLocation = function(req, res) {
     //TODO this should construct list of all GPS lat and long values.
     var listLat = [user1Lat, user2Lat, user3Lat];
     var listLong = [user1Long, user2Long, user3Long];
+    var listUserId = [userId1, userId2, userId3];
     console.log(listLat);
     console.log(listLong);
+    //add markers to map
+    //setLocationMarkers(listLat, listLong, listUserId);
     
     //find geographic midpoint of GPS points
     var midpoint = getGeographicMidpoint(listLat, listLong);
@@ -143,35 +146,38 @@ var searchByLocation = function(req, res) {
             if (error) {
                 console.log('ERROR in yelp.search: ' + error);
             }
-            //var parsedData = JSON.parse(data);
-            data.businesses.forEach(function(item, index) {
-              console.log("id: " + item.id + " name: " + item.name + " rating: " + item.rating + " url: " + item.url);
-              console.log(index);
-            });
-            res.send(response + JSON.stringify(data));
+            console.log(listLat);
+            console.log(listLong);
+            console.log(listUserId);
+            //res.send(response + JSON.stringify(data));
+            res.send(listLat.splice(listLong).splice(listUserId));
+        
     });
-
-    // yelp.business("yelp-san-francisco", function(error, data) {
- //      console.log(error);
- //      console.log(data);
- //    });
-    
 };
 
-// var renderMarkers(data) {
-//     
-//     // create a map in the "map" div, set the view to a given place and zoom, default to SF
-//     var map = L.map('map').setView([37.7756, -122.4193], 13);
-// 
-//     // add an OpenStreetMap tile layer
-//     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-//         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-// 
-//     // add a marker in the given location, attach some popup content to it and open the popup
-//     L.marker([37.7756, -122.4193]).addTo(map)
-//         .bindPopup('Your current location!')
-//         .openPopup();    
-// }
+//parse JSON data returned by Yelp search API and render to UI
+var parseYelpSearchResults = function(data) {        
+    var map = L.map('map').setView([37.7756, -122.4193], 13);
+    
+    // add an OpenStreetMap tile layer
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+        
+    if (data.businesses) {
+        data.businesses.forEach(function(item, index) {
+          console.log("id: " + item.id + " name: " + item.name + " rating: " + item.rating + " url: " + item.url);
+          console.log(index);
+          // add a marker in the given location, attach some popup content to it and open the popup
+          L.marker([37.7756, -122.4193]).addTo(map)
+              .bindPopup('Your current location!')
+              .openPopup();  
+        });
+    }
+
+    
+
+      
+}
 
 
 /* POST and PUT go to add cab */
