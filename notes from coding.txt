@@ -5,9 +5,25 @@ first solve for n = 3:
 3. call Yelp API: location, radius, find OpenNow, venue type
 4. show results
 5. yelp API has: term (any search string) and categories (defined)
+6. change input such that it's a single input textbox & always adding a new GPS location.
+7. make categories available
+8. address, zip code, more flexible addresses
+9. markers: auto-center
+10. encapsulate window.map as class
+11. have single text box entry to add GPS locations, button
+put in marker
+add to db
+query yelp
+
+Other ideas: 
+nodemon
+vs.
+Forever
+--
+host on AWS
 
 
-
+****************************
 debugging notes:
 1.
 GET /javascripts/meetup-ui.js 200 6ms - 1.34kb
@@ -26,23 +42,10 @@ this means 404, router.put(...) is not correctly set up.
 }
 > 
 
+3. The error in renderYelpResults: 
+Uncaught TypeError: Cannot use 'in' operator to search for '250'
+$.each did not seem to like for-loop/iterating through a JSON.stringify(data) type.
+I removed the JSON.stringify in index.js and just returned results as an array [...]
+this seemed to fix it. $.each now outputs [item, index] in that order.
 
-3. change input such that it's a single input textbox & always adding a new GPS location.
 
-4. make categories available
-5. address, zip code, more flexible addresses
-
-6. markers: auto-center
---
-have single text box entry to add GPS locations, button
-put in marker
-add to db
-query yelp
-
---
-nodemon
-vs.
-Forever
-
---
-host on AWS

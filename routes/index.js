@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var HashMap = require('hashmap').HashMap;
 var yelp = require("yelp").createClient({
   consumer_key: "9vGW7CCOVIDyECMs25QtlA", 
   consumer_secret: "9Bu0-7__h71X8QkC_CneYIS50PM",
@@ -64,7 +65,7 @@ var searchByLocation = function(req, res) {
     			//result = {result:'success', id : userId1, lat : user1Lat, long : user1Long};
                 //debug
                 console.log("result:'success' " + "id " + userId1 + " lat " + user1Lat + " long :" + user1Long);
-    			response += 'success ';
+    			//response += 'success ';
             }
         });
     }
@@ -90,7 +91,7 @@ var searchByLocation = function(req, res) {
                 //console.log(result);
                 //debug
                 console.log("result:'success' " + "id " + userId2 + " lat " + user2Lat + " long :" + user2Long);  
-                response += 'success ';  			
+                //response += 'success ';  			
             }
         });        
         
@@ -117,7 +118,7 @@ var searchByLocation = function(req, res) {
                 //console.log(result);
                 //debug
                 console.log("result:'success' " + "id " + userId3 + " lat " + user3Lat + " long :" + user3Long);
-                response += 'success ';
+                //response += 'success ';
             }
         });
     }
@@ -128,8 +129,6 @@ var searchByLocation = function(req, res) {
     var listUserId = [userId1, userId2, userId3];
     console.log(listLat);
     console.log(listLong);
-    //add markers to map
-    //setLocationMarkers(listLat, listLong, listUserId);
     
     //find geographic midpoint of GPS points
     var midpoint = getGeographicMidpoint(listLat, listLong);
@@ -149,35 +148,11 @@ var searchByLocation = function(req, res) {
             console.log(listLat);
             console.log(listLong);
             console.log(listUserId);
-            //res.send(response + JSON.stringify(data));
-            res.send(listLat.splice(listLong).splice(listUserId));
-        
+            //console.log(response + JSON.stringify(data));
+            //parse Yelp results
+            res.send(parseYelpSearchResults(data));
     });
 };
-
-//parse JSON data returned by Yelp search API and render to UI
-var parseYelpSearchResults = function(data) {        
-    var map = L.map('map').setView([37.7756, -122.4193], 13);
-    
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-        
-    if (data.businesses) {
-        data.businesses.forEach(function(item, index) {
-          console.log("id: " + item.id + " name: " + item.name + " rating: " + item.rating + " url: " + item.url);
-          console.log(index);
-          // add a marker in the given location, attach some popup content to it and open the popup
-          L.marker([37.7756, -122.4193]).addTo(map)
-              .bindPopup('Your current location!')
-              .openPopup();  
-        });
-    }
-
-    
-
-      
-}
 
 
 /* POST and PUT go to add cab */
@@ -223,6 +198,28 @@ var getGeographicMidpoint = function(listLat, listLong) {
     var midLong = Math.atan2(y, x) * 180 / Math.PI;  //convert back to degrees
     var midLat = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))) * 180 / Math.PI;    //convert back to degrees
     return [midLat, midLong];   // in order {lat, long}
+}
+
+//parse JSON data returned by Yelp search API
+//TODO filter by isOpen
+var parseYelpSearchResults = function(data) {  
+    var results = []; 
+    if (data.businesses) {
+        data.businesses.forEach(function(item, index) {
+          console.log("id: " + item.id + " name: " + item.name + " rating: " + item.rating + " url: " + item.url);
+          console.log(index);
+          //hashmap: K, V -> field name, value
+          var map = {}; 
+          map['name'] = item.name;
+          map['url'] = item.url;
+          map['image_url'] = item.image_url;
+          map['rating'] = item.rating;
+          map['review_count'] = item.review_count;
+          map['location'] = item.location;
+          results.push(map);
+        });
+    }
+    return results;     
 }
 
 

@@ -3,22 +3,7 @@ var showRes = function (data) {
     $('#result').val(JSON.stringify(data, null, '  '));
 };  
 
-//TODO should be server-side?
-var renderMap = function() {
-    // create a map in the "map" div, set the view to a given place and zoom, default to SF
-    var map = L.map('map').setView([37.7756, -122.4193], 13);
-
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
-
-    // add a marker in the given location, attach some popup content to it and open the popup
-    L.marker([37.7756, -122.4193]).addTo(map)
-        .bindPopup('Your current location!')
-        .openPopup();  
-};
-
-var setLocationMarkers = function(data) {  
+var setLocationMarkers = function() {  
     var listUserId = [];  
     var listLat = [];
     var listLong = [];
@@ -56,7 +41,7 @@ var setLocationMarkers = function(data) {
         console.log(listLat);
         console.log(listLong);
         console.log(listUserId);
-        console.log(map);
+        //console.log(map);
         // add a marker in the given location, attach some popup content to it and open the popup
         L.marker([parseFloat(listLat[i]), parseFloat(listLong[i])]).addTo(map)
              .bindPopup(listUserId[i] + "!")
@@ -65,10 +50,43 @@ var setLocationMarkers = function(data) {
     }; 
 }
 
+window.renderInitialMap = function(e) {
+    // create a map in the "map" div, set the view to a given place and zoom, default to SF
+    window.map = L.map('map').setView([37.7756, -122.4193], 13);
+
+    // add an OpenStreetMap tile layer
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+
+    // add a marker in the given location, attach some popup content to it and open the popup
+    L.marker([37.7756, -122.4193]).addTo(map)
+        .bindPopup('Your current location!')
+        .openPopup();  
+}
+
+var renderYelpResults = function(data) {
+    $('#result').val("");
+    debugger;
+    //TODO need to remove whitespace (from where?)
+    $.each(data, function(index, item) {  
+        console.log("index: " + index);
+        console.log("item: " + item);        
+        /*  map['name'] = item.name;
+          map['url'] = item.url;
+          map['image_url'] = item.image_url;
+          map['rating'] = item.rating;
+          map['review_count'] = item.review_count;
+          map['location'] = item.location;
+         */
+        $('#result').val($('#result').val() + "\n" + (index + 1) + ": " + item['name'] + " rating: " + item['rating'] + " review_count: " + item['review_count'] 
+                                    + "\nurl: " + item['url'] 
+                                    + "\naddr: " + item['location'].display_address +  "\n");
+    });
+}
+
 
 $( document ).ready(function() {
-    //renderMap();
-    
+   
     $('#searchByLocation').click(
         function(e) {
             console.log('executing #searchByLocation');
@@ -77,9 +95,10 @@ $( document ).ready(function() {
                 { url: '/searchByLocation/' + $('#inputTerm').val(),
                   type: 'POST', 
                   data: data,
-                  success: setLocationMarkers(data)
+                  success: renderYelpResults
                 }
             );  
+            setLocationMarkers();
         }   
     );
     
