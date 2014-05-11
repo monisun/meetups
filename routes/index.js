@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var HashMap = require('hashmap').HashMap;
+var http = require('http');
 var yelp = require("yelp").createClient({
   consumer_key: "9vGW7CCOVIDyECMs25QtlA", 
   consumer_secret: "9Bu0-7__h71X8QkC_CneYIS50PM",
@@ -12,6 +12,53 @@ var yelp = require("yelp").createClient({
 router.get('/', function(req, res) {
   res.render('index', { title: 'Meetup' });
 });
+
+//TODO need global IP
+//find IP address of current machine
+/* var os = require('os');
+var ifaces = os.networkInterfaces();
+var ip = "";
+for (var dev in ifaces) {
+  var alias = 0;
+  ifaces[dev].forEach(function(details) {
+    if (details.family == 'IPv4') {
+      console.log(dev+(alias?':'+alias:''), details.address);
+      console.log('here');
+      console.log(dev);
+      console.log(details);
+      console.log(details.address);
+      ip = details.address;
+      ++alias;
+    }
+  });
+}
+
+console.log("ip: " + ip);
+
+//get current location based on IP address of current machine
+var options = {
+        host: 'freegeoip.net',    
+        path: '/json/'  + ip,
+        method: 'GET'   
+};
+
+var req = http.request(options, function(res) {    
+    console.log('STATUS: ' + res.statusCode);    
+    console.log('HEADERS: ' + JSON.stringify(res.headers));    
+    res.setEncoding('utf8');    
+    res.on('data', function (chunk) {   
+        console.log('BODY: ' + chunk);
+    });    
+});
+
+//write data to request body
+req.write('data\n');
+req.write('data\n');
+req.end();
+
+*/
+
+
 
 //search
 var searchByLocation = function(req, res) {

@@ -64,8 +64,9 @@ window.renderInitialMap = function(e) {
         .openPopup();  
 }
 
+
 var renderYelpResults = function(data) {
-    $('#result').val("");
+    $('#result').html("");
     debugger;
     //TODO need to remove whitespace (from where?)
     $.each(data, function(index, item) {  
@@ -78,12 +79,11 @@ var renderYelpResults = function(data) {
           map['review_count'] = item.review_count;
           map['location'] = item.location;
          */
-        $('#result').val($('#result').val() + "\n" + (index + 1) + ": " + item['name'] + " rating: " + item['rating'] + " review_count: " + item['review_count'] 
-                                    + "\nurl: " + item['url'] 
-                                    + "\naddr: " + item['location'].display_address +  "\n");
+        $('#result').append('<div>', (index + 1) + ": " + '<a href="' + item['url'] + '" target =" ">'  + item['name'] + '</a>' + " Rating: " + item['rating'] 
+            + ", out of " + item['review_count'] + " reviews. \n" + item['location'].display_address);
+        $('#result').append('<h2>');
     });
 }
-
 
 $( document ).ready(function() {
    
@@ -102,6 +102,7 @@ $( document ).ready(function() {
         }   
     );
     
+    
     $('#searchAddr').click(
         function(e) {
             console.log('executing #searchAddr');
@@ -113,46 +114,6 @@ $( document ).ready(function() {
                     console.log(data);
                 });
         }
-    );
-    
-    
-    
-    
-    
-    
-    $('#searchnearestcabs').click(
-        function(e) {
-            var data = $('#formGetCab').serialize();
-            $.get(
-                '/cabs/' + $('#inputGetCabId').val(),
-                data,
-                showRes                
-            );
-        }   
-    );
-    $('#deletecabsBtn').click(
-        function(e) {
-            var cabId = $('#inputDeleteCabId').val();
-            if (!cabId) {
-                return;
-            }
-            $.ajax(
-                { url: '/cabs/' + cabId,
-                  type: 'DELETE', 
-                  success: showRes
-                }
-            );             
-        }   
-    );
-    $('#deleteallcabsBtn').click(
-        function(e) {
-            $.ajax(
-                { url: '/cabs',
-                  type: 'DELETE', 
-                  success: showRes
-                }
-            );             
-        }   
     );
 });
 
