@@ -44,9 +44,9 @@ var setLocationMarkers = function() {
         //console.log(map);
         // add a marker in the given location, attach some popup content to it and open the popup
         L.marker([parseFloat(listLat[i]), parseFloat(listLong[i])]).addTo(map)
-             .bindPopup(listUserId[i] + "!")
+             .bindPopup(listUserId[i])
              .openPopup();   
-        map.fitBounds([[listLat[0], listLong[0]], [listLat[1], listLong[1]], [listLat[2], listLong[2]]], [20, 20]); 
+        map.fitBounds([[listLat[0], listLong[0]], [listLat[1], listLong[1]], [listLat[2], listLong[2]]], [100, 100]); 
     }; 
 }
 

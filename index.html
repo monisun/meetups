@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Meetup</title>
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <script src="/javascripts/jquery-2.1.0.js" type="text/javascript"></script>
+    <script src="/javascripts/meetup-ui.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <h1>Meetup</h1>
+
+    <p>Welcome to Meetup</p>
+    <textarea id="result" style="width:1000px; height:200px;">
+</textarea>
+
+    <div id="controls">
+        <h2>enter your friends' GPS locations and what you would like to search
+        for</h2>
+
+        <form action="/searchByLocation" id="formSearchByLocation" method=
+        "post" name="searchByLocation">
+            <input id="inputUser1Id" name="user1id" placeholder="user1 ID"
+            type="text"><input id="inputUser1Lat" name="user1lat" placeholder=
+            "user1 LATITUDE" type="text"><input id="inputUser1Long" name=
+            "user1long" placeholder="user1 LONGITUDE" type="text"><input id=
+            "inputUser2Id" name="user2id" placeholder="user2 ID" type=
+            "text"><input id="inputUser2Lat" name="user2lat" placeholder=
+            "user2 LATITUDE" type="text"><input id="inputUser2Long" name=
+            "user2long" placeholder="user2 LONGITUDE" type="text"><input id=
+            "inputUser3Id" name="user3id" placeholder="user3 ID" type=
+            "text"><input id="inputUser3Lat" name="user3lat" placeholder=
+            "user3 LATITUDE" type="text"><input id="inputUser3Long" name=
+            "user3long" placeholder="user3 LONGITUDE" type="text"><input id=
+            "inputTerm" name="term" placeholder=
+            "ex. 'food', 'restaurant', 'park' leave empty for any." style=
+            "width:372px; height:14px;" type="text"><button id=
+            "searchByLocation" type="button">search!</button>
+        </form>
+
+        <h2>--to remove -- get cab by id or search nearest cabs by
+        location</h2>
+
+        <form action="/cabs" id="formGetCab" method="get" name=
+        "searchnearestcabs">
+            <input id="inputGetCabId" name="id" placeholder="cab_id" type=
+            "text"><input id="inputLat" name="latitude" placeholder="LATITIDUE"
+            type="text"><input id="inputLong" name="longitude" placeholder=
+            "LONGITUDE" type="text"><input id="inputRadius" name="radius"
+            placeholder="radius (m)" type="text"><input id="inputLimit" name=
+            "maxRecords" placeholder="limit" type="text"><button id=
+            "searchnearestcabs" type="button">get cabs!</button>
+        </form>
+
+        <h2>--to remove -- delete cab by id or all cabs</h2>
+
+        <form action="/cabs" id="deletecabs" method="delete" name="deletecabs">
+            <input id="inputDeleteCabId" name="id" placeholder="cab_id" type=
+            "text"><button id="deletecabsBtn" type="button">delete cab by
+            id!</button><button id="deleteallcabsBtn" type="button">delete all
+            cabs!</button>
+        </form>
+    </div>
+</body>
+</html>

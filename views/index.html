@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Meetup</title>
+    <link href="/stylesheets/style.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <script src="/javascripts/jquery-2.1.0.js" type="text/javascript"></script>
+    <script src="/javascripts/meetup-ui.js" type="text/javascript"></script>
+    <script>
+      $("a[href='#top']").click(function() {
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          return false;
+      });
+    </script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <style type="text/css">
+        body {
+            font-family: 'Droid Serif', 'Helvetica';
+            color: #0000FF;
+            margin: 10px;
+            padding: 0px;
+            background: #FFFFFF center center fixed no-repeat;
+            background-size: cover;
+            opacity: 0.9;
+        }
+        .title{
+            margin: 10px;
+        }
+        .pagecenterbox {
+            margin: 10px;
+            width: 450px;
+            height: 450px;
+            position: absolute;
+            left: 68%;
+            top: 3%;
+            opacity: 1;
+            font-family: 'Droid Serif', 'Helvetica';
+            color: #0000FF;
+        }
+        .map {
+            margin: 10px;
+            width: 900px;
+            height: 450px;
+            position: absolute;
+            top: 36%;
+            opacity: 1;
+            font-family: 'Droid Serif', 'Helvetica';
+            color: #0000FF;
+        }   
+        .addresssearch {
+         
+            width: 700px;
+        }
+        .inputtext {
+            font-family: 'Droid Serif', 'Helvetica';
+            color: #0000FF;
+            height: 30px;
+            width: 500px;
+        }
+        .controls {
+            margin: 10px;
+        }
+        .button {   
+            margin: 3px;
+            background: #ffffff;
+            border-radius: 10px;
+            font-family: 'Droid Serif', 'Helvetica';
+            color: #0000FF;
+            font-size: 13px;
+            text-decoration: bold;
+         }
+        .button:hover {
+            background: #ffffff;
+            text-decoration: none;
+         }
+        .button:active {
+           border-top-color: #ffffff;
+           background: #ffffff;
+         }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>Let's Meet Up!</h1>
+    </div>
+    <div id="controls" class="controls">
+        <h2>Enter the GPS locations and what you would like to search for:</h2>
+
+        <form action="/searchByLocation" id="formSearchByLocation" method=
+        "post" name="searchByLocation">
+            <div id="addrsearch" class="addresssearch" class="inputtext">
+              <input id="addr" name="addr" placeholder="address (not coded yet)" type="text" style="width:500px"/>
+              <button id="searchAddr" type="button">search address</button>              
+            </div>
+            <div class="inputtext">
+                <input id="inputUser1Id" name="user1id" placeholder="user1 ID" type="text" value="Twin Peaks" style="width:274px"/>
+                <input id="inputUser1Lat" name="user1lat" placeholder="user1 LATITUDE" type="text" value="37.751586" style="width:100px" />
+                <input id="inputUser1Long" name="user1long" placeholder="user1 LONGITUDE" type="text" value="-122.447722" style="width:100px"/>
+            </div>
+            <div class="inputtext">    
+                <input id="inputUser2Id" name="user2id" placeholder="user2 ID" type="text" value="Ferry Bldg" style="width:274px"/>
+                <input id="inputUser2Lat" name="user2lat" placeholder="user2 LATITUDE" type="text" value="37.7955" style="width:100px"/>
+                <input id="inputUser2Long" name="user2long" placeholder="user2 LONGITUDE" type="text" value="-122.3937" style="width:100px"/>
+            </div>
+            <div class="inputtext">
+                <input id="inputUser3Id" name="user3id" placeholder="user3 ID" type="text" value="Dolores Park" style="width:274px"/>
+                <input id="inputUser3Lat" name="user3lat" placeholder="user3 LATITUDE" type="text" value="37.758333" style="width:100px"/>
+                <input id="inputUser3Long" name="user3long" placeholder="user3 LONGITUDE" type="text" value="-122.4275" style="width:100px"/>
+            </div>
+            <div class="inputtext">
+                <input id="inputTerm" name="term" placeholder="ex. 'food', 'restaurant', 'park' leave empty for any." style="width:500px; height:14px;" type="text" value = "food"/>
+               
+                <button id="searchByLocation" type="button" class="button">Search!</button>
+                <h2></h2>
+            </div>
+        </form>
+        <div id="map" class="map">
+            <script>
+                $(document).ready(renderInitialMap);
+            </script>
+        </div>
+        <div id="output" class="pagecenterbox" align="left">            
+                <h2>Results: </h2>
+                <div id="result" style="width:400px;height:640px;" font-family="Helvetica" font-color="#0000FF" size=14px;>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
